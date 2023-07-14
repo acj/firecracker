@@ -6,6 +6,23 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## \[Unreleased\]
+
+### Added
+
+- Added support for PVH boot mode.  This is used when an x86 kernel provides
+  the appropriate ELF Note to indicate that PVH boot mode is supported.
+  Linux kernels compiled with CONFIG_XEN_PVH=y set this ELF Note, as do
+  FreeBSD kernels.
+
+### Changed
+
+### Deprecated
+
+### Removed
+
+### Fixed
+
 ## \[1.7.0\]
 
 ### Added
