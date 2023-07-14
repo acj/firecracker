@@ -15,6 +15,10 @@ and this project adheres to
   Support for VMGenID via DeviceTree bindings exists only on mainline 6.10 Linux
   onwards. Users of Firecracker will need to backport the relevant patches on
   top of their 6.1 kernels to make use of the feature.
+- Added support for PVH boot mode.  This is used when an x86 kernel provides
+  the appropriate ELF Note to indicate that PVH boot mode is supported.
+  Linux kernels compiled with CONFIG_XEN_PVH=y set this ELF Note, as do
+  FreeBSD kernels.
 
 ### Changed
 
