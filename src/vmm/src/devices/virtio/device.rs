@@ -11,7 +11,8 @@ use std::sync::atomic::AtomicU32;
 
 use vmm_sys_util::eventfd::EventFd;
 
-use super::ActivateError;
+use super::{ActivateError, ResetError};
+use super::mmio::{VIRTIO_MMIO_INT_CONFIG, VIRTIO_MMIO_INT_VRING};
 use super::queue::{Queue, QueueError};
 use super::transport::VirtioInterrupt;
 use crate::devices::virtio::AsAny;
@@ -153,10 +154,9 @@ pub trait VirtioDevice: AsAny + Send {
     /// Checks if the resources of this device are activated.
     fn is_activated(&self) -> bool;
 
-    /// Optionally deactivates this device and returns ownership of the guest memory map, interrupt
-    /// event, and queue events.
-    fn reset(&mut self) -> Option<(Arc<dyn VirtioInterrupt>, Vec<EventFd>)> {
-        None
+    /// Optionally deactivates this device.
+    fn reset(&mut self) -> Result<(), ResetError> {
+        Err(ResetError::NotImplemented)
     }
 
     /// Mark pages used by queues as dirty.
