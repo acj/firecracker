@@ -131,7 +131,7 @@ pub fn configure_system(
     boot_prot: BootProtocol,
 ) -> Result<(), ConfigurationError> {
     // Note that this puts the mptable at the last 1k of Linux's 640k base RAM
-    mptable::setup_mptable(guest_mem, num_cpus).map_err(ConfigurationError::MpTableSetup)?;
+    mptable::setup_mptable(guest_mem, resource_allocator, num_cpus).map_err(ConfigurationError::MpTableSetup)?;
 
     match boot_prot {
         BootProtocol::PvhBoot => {
@@ -172,7 +172,7 @@ fn configure_pvh(
     let mut memmap: Vec<hvm_memmap_table_entry> = Vec::new();
 
     // Create the memory map entries.
-    add_memmap_entry(&mut memmap, 0, EBDA_START, MEMMAP_TYPE_RAM)?;
+    add_memmap_entry(&mut memmap, 0, layout::SYSTEM_MEM_START, MEMMAP_TYPE_RAM)?;
     let last_addr = guest_mem.last_addr();
     if last_addr < end_32bit_gap_start {
         add_memmap_entry(
@@ -263,9 +263,6 @@ fn configure_64bit_boot(
     let end_32bit_gap_start = GuestAddress(MMIO_MEM_START);
 
     let himem_start = GuestAddress(layout::HIMEM_START);
-
-    // Note that this puts the mptable at the last 1k of Linux's 640k base RAM
-    mptable::setup_mptable(guest_mem, resource_allocator, num_cpus)?;
 
     // Set the location of RSDP in Boot Parameters to help the guest kernel find it faster.
     let mut params = boot_params {

@@ -591,6 +591,9 @@ fn load_kernel(
         // Use the PVH kernel entry point to boot the guest
         entry_point_addr = pvh_entry_addr;
         boot_prot = BootProtocol::PvhBoot;
+    } else {
+        entry_point_addr = entry_addr.kernel_load;
+        boot_prot = BootProtocol::LinuxBoot;
     }
     #[cfg(target_arch = "aarch64")]
     {
