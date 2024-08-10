@@ -589,6 +589,7 @@ fn load_kernel(
     #[cfg(target_arch = "x86_64")]
     if let PvhBootCapability::PvhEntryPresent(pvh_entry_addr) = entry_addr.pvh_boot_cap {
         // Use the PVH kernel entry point to boot the guest
+        println!("Using PVH entry point: {:?}", pvh_entry_addr);
         entry_point_addr = pvh_entry_addr;
         boot_prot = BootProtocol::PvhBoot;
     } else {

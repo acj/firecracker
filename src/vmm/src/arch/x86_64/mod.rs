@@ -172,7 +172,8 @@ fn configure_pvh(
     let mut memmap: Vec<hvm_memmap_table_entry> = Vec::new();
 
     // Create the memory map entries.
-    add_memmap_entry(&mut memmap, 0, layout::SYSTEM_MEM_START, MEMMAP_TYPE_RAM)?;
+    const EBDA_START: u64 = 0x9fc00;
+    add_memmap_entry(&mut memmap, 0, EBDA_START, MEMMAP_TYPE_RAM)?;
     let last_addr = guest_mem.last_addr();
     if last_addr < end_32bit_gap_start {
         add_memmap_entry(
